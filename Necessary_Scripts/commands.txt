@@ -1,0 +1,29 @@
+#!/bin/bash
+
+#Kafa Commands
+$KAFKA_DIR/bin/zookeeper-server-start.sh $KAFKA_DIR/config/zookeeper.properties
+$KAFKA_DIR/bin/kafka-server-start.sh $KAFKA_DIR/config/server.properties
+
+
+# Create a topic
+$KAFKA_DIR/bin/kafka-topics.sh --create --topic test --bootstrap-server $BOOTSTRAP_SERVERS --partitions 1 --replication-factor 1
+
+# List topics
+$KAFKA_DIR/bin/kafka-topics.sh --list --bootstrap-server $BOOTSTRAP_SERVERS
+
+# Describe a topic
+$KAFKA_DIR/bin/kafka-topics.sh --describe --topic test --bootstrap-server $BOOTSTRAP_SERVERS
+
+# Produce messages to a topic
+$KAFKA_DIR/bin/kafka-console-producer.sh --topic test --bootstrap-server $BOOTSTRAP_SERVERS
+
+# Consume messages from a topic
+$KAFKA_DIR/bin/kafka-console-consumer.sh --topic test --bootstrap-server $BOOTSTRAP_SERVERS --from-beginning
+
+
+#Storm Commands
+$STORM_HOME/bin/storm nimbus
+$STORM_HOME/bin/storm supervisor
+
+
+
