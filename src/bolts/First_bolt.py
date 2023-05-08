@@ -37,15 +37,19 @@ class Emit(Bolt):
             user_name = user_data.get('personal_info')
             folder_name=user_name['Name']
             folder_name = folder_name.replace(" ", "")
+            id=str(tup.id)
             if user_name is not None:
                 # self.log(user_name)
                 # self.log(folder_name)
-                with self.hdfs_client.write('/chakka/' + folder_name + '/user_name.txt', encoding='utf-8') as writer:
-                    writer.write(str(user_name))
+                json_user = json.dumps(user_name)
+                with self.hdfs_client.write('/user_data/' + folder_name + f'/{id[-4:]}{str(folder_name.lower())}.json', encoding='utf-8',overwrite=True) as writer:
+                    writer.write(json_user)
                     self.log(f'{folder_name} added to hdfs')
         except ValueError:
             pass
         except TypeError:
+            pass
+        except NameError:
             pass
 
 
